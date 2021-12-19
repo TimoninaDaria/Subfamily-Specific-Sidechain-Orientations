@@ -517,8 +517,8 @@ class Input:
         self.dict_of_sys_argv = dict([arg.split('=') for arg in sys_argv[1:]])
         if len(self.dict_of_sys_argv) == 0:
             print('''
-Usage:   python3 Zebra3D.py aligned_pdbs=</path/to/folder> aligned_fasta=</path/to/file> output=</path/to/folder> [options]
-Example: python3 Zebra3D.py aligned_pdbs=./input_pdbs aligned_fasta=./input.fasta output=./output
+Usage:   python3 main.py aligned_pdbs=</path/to/folder> aligned_fasta=</path/to/file> output=</path/to/folder> [options]
+Example: python3 main.py aligned_pdbs=./input_pdbs aligned_fasta=./input.fasta output=./output
 
 Mandatory input parameters:
 ===========================
@@ -556,11 +556,7 @@ ref=<string>                      # Set the reference protein by its name in the
 PyMol parameters:
 =================
 compile_pymol_pse=false # Disable compilation of PyMol sessions with 3D-annotation of results
-
-Documentation:
-==============
-The latest version of the program, documentation and examples are available open-access at https://biokinet.belozersky.msu.ru/Zebra3D
-              ''')    
+              ''')
             quit()
         
         self.path_to_program = os.path.dirname(os.path.abspath(sys_argv[0]))

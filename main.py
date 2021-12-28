@@ -473,7 +473,7 @@ class One_column_clustering:
         self.lab = db.labels_
         self.number_of_clusters = len(set(self.lab)) - 1 if -1 in set(self.lab) else len(set(self.lab))
         self.is_ok = len(set(self.lab)) > 1
-        if list(self.lab).count(-1) == 0 and len(set(self.lab)) == 2 or list(self.lab).count(-1) == 1 and len(set(self.lab)) == 3:
+        if -1 not in set(self.lab) and len(set(self.lab)) == 2 or  -1 in set(self.lab) and len(set(self.lab)) == 3:
             self.sil = silhouette_score(clust_matr[self.lab != -1], self.lab[self.lab != -1], metric='euclidean')
             dist_matr = np.array([[distance.euclidean(clust_matr[i], clust_matr[j]) for i in range(len(clust_matr))] for j in range(len(clust_matr))])
             mean_diams_clusters = [dist_matr[self.lab == i].T[self.lab == j].mean() for i in set(self.lab) for j in set(self.lab) if i != j and i != -1 and j != -1] 
@@ -725,12 +725,15 @@ if __name__ == "__main__":
     if input.create_pse:
         os.system('pymol -qc '+os.path.join(input.output, 'RESULT.py'))
     table = [["Rank", "Specificity", "Z-Score", "Number of clusters", "Residue number in reference protein PDB {}".format(input.ref)]]
-    for i, cl in enumerate(cls_sorted[0:min(input.number_of_result_resids, len(cls_sorted))]):
+    i = 1
+    for _, cl in enumerate(cls_sorted[0:min(input.number_of_result_resids, len(cls_sorted))]):
         if cl.is_ok:
             if cl.score is not None:
-                table.append([i + 1, round(cl.spec, 3), round(cl.score, 3), cl.number_of_clusters, cl.ref])
+                table.append([i, round(cl.spec, 3), round(cl.score, 3), cl.number_of_clusters, cl.ref])
+                i += 1
             else:
-                table.append([i + 1, 'N/A', 'N/A',  cl.number_of_clusters, cl.ref])
+                table.append([i, 'N/A', 'N/A',  cl.number_of_clusters, cl.ref])
+                i += 1
     with open(os.path.join(input.output, 'RESULT.txt'), 'w') as f:
         f.write(tabulate(table)+"\n")
     

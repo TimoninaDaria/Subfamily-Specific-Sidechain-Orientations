@@ -83,7 +83,7 @@ number_of_result_resids=\<int\>     \# Number of residues with the greatest
 score to print in RESULT-files (10, by default)
 
 ref=\<string\>                      \# Set the reference protein by its name in
-the FASTA alignment (default is the firs protein)
+the FASTA alignment (default is the first protein)
 
  
 
